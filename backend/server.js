@@ -4,6 +4,8 @@
 import { config } from 'dotenv';
 config();
 
+console.log('API Key Status:', process.env.KINDWISE_API_KEY ? 'LOADED' : 'MISSING');
+
 // 2. Import all dependencies
 import express from 'express';
 import cors from 'cors';

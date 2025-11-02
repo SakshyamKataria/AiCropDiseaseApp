@@ -1,9 +1,12 @@
 // /backend/routes/diagnosisRoutes.js
 
+import 'dotenv/config';
 import express from 'express';
 import axios from 'axios';
 import Diagnosis from '../models/Diagnosis.js'; // Correct relative path
 import multer from 'multer'; 
+import User from '../models/User.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -15,11 +18,15 @@ const KINDWISE_ENDPOINT = 'https://crop.kindwise.com/api/v1/identification';
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Corrected route path: removed /api/diagnose prefix, now just /diagnose
-router.post('/diagnose', upload.single('plantImage'), async (req, res) => { 
+router.post('/diagnose', protect, upload.single('plantImage'), async (req, res) => { 
     
     // NOTE: MongoDB/Mongoose is not imported here as it's typically set up globally in server.js
     // We assume the Diagnosis model is ready to use.
+    console.log('Key used in AXIOS:', KINDWISE_API_KEY ? 'Present' : 'Error!');
 
+    const user = req.user;
+    const userId = user._id;
+    
     if (!req.file) {
         return res.status(400).json({ success: false, message: "No image file uploaded." });
     }
@@ -55,6 +62,7 @@ router.post('/diagnose', upload.single('plantImage'), async (req, res) => {
         // For now, we skip the user link until login is implemented.
         
         const newDiagnosis = new Diagnosis({
+            user : userId,
             submittedImage: req.file.originalname, 
             
             // Crop Details
@@ -70,6 +78,11 @@ router.post('/diagnose', upload.single('plantImage'), async (req, res) => {
         });
 
         await newDiagnosis.save();
+
+        //Update the User's diagnosis history array
+        await User.findByIdAndUpdate(userId, {
+            $push: { diagnoses: newDiagnosis._id }
+        }, { new: true });
         
         // 4. Send the result back to the React client
         res.status(200).json({ 

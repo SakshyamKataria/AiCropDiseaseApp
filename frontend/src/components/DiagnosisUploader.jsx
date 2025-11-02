@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
 
 const DiagnosisUploader = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [loading, setLoading] = useState(false);
     const [diagnosisResult, setDiagnosisResult] = useState(null);
     const [error, setError] = useState(null); // Added state for error messages
+    const { token } = useAuth();
 
     const handleFileChange = (e) => {
         setSelectedFile(e.target.files[0]);
@@ -29,7 +31,14 @@ const DiagnosisUploader = () => {
             // Corrected URL to http (for local development)
             const response = await axios.post(
                 'http://localhost:5000/api/diagnose', 
-                formData
+                formData,
+                {
+                    headers: {
+                        // ⬅️ CRITICAL: Send the JWT for the protected route
+                        'Authorization': `Bearer ${token}`, 
+                        'Content-Type': 'multipart/form-data', 
+                    }
+                }
             );
             setDiagnosisResult(response.data.diagnosis);
             setSelectedFile(null); // Clear selected file after successful upload
@@ -137,7 +146,7 @@ const DiagnosisUploader = () => {
                         </p>
 
                         {/* You can expand this to show fullResponse details like treatment, etc. */}
-                        {/* {diagnosisResult.fullResponse && diagnosisResult.fullResponse.result.disease.suggestions[0].details && (
+                        {diagnosisResult.fullResponse && diagnosisResult.fullResponse.result.disease.suggestions[0].details && (
                             <div className="mt-4">
                                 <h5 className="text-lg font-medium text-green-800">Further Details:</h5>
                                 <p className="text-gray-700">
@@ -145,7 +154,7 @@ const DiagnosisUploader = () => {
                                 </p>
                                 // Add more details as needed
                             </div>
-                        )} */}
+                        )}
 
                     </div>
                 )}

@@ -26,7 +26,7 @@ router.post('/diagnose', protect, upload.single('plantImage'), async (req, res) 
 
     const user = req.user;
     const userId = user._id;
-    
+
     if (!req.file) {
         return res.status(400).json({ success: false, message: "No image file uploaded." });
     }

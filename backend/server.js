@@ -12,6 +12,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import authRoutes from './routes/authRoutes.js';
 import diagnosisRoutes from './routes/diagnosisRoutes.js';
+import publicRouter from './routes/publicRoutes.js';
 
 // 3. Initialize the App and Config
 const app = express();
@@ -26,6 +27,7 @@ app.use(express.json({ limit: '50mb' }));
 
 app.use('/api/auth', authRoutes); // For /api/auth/register, /api/auth/login
 app.use('/api', diagnosisRoutes);  // For /api/diagnose (if you keep the path generic)
+app.use('/api/public', publicRouter); //for /api/public/disease, /api/public/disease/:cropType
 
 // 6. Mongoose Connection Logic
 const connectDB = async () => {

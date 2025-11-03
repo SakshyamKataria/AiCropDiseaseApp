@@ -5,6 +5,9 @@ import DiagnosisUploader from './components/DiagnosisUploader';
 import Login from './components/Login'; 
 import Register from './components/Register'; 
 import ProtectedRoute from './components/ProtectedRoute'; 
+import MainDashboard from './components/MainDashboard';
+import DiseaseLibraryIndex from './components/DiseaseLibraryIndex';
+import DiseaseDetail from './components/DiseaseDetail';
 
 // Main App Component with Routes
 function App() {
@@ -36,6 +39,15 @@ function App() {
             <Header />
             <main className="pt-20 min-h-screen"> 
                 <Routes>
+                    {/* Protected Route for the Main Page (Diagnosis Uploader & Library Buttons) */}
+                    <Route path="/" element={<ProtectedRoute element={MainDashboard} />} /> 
+    
+                    {/* Public/Protected Route for the Disease Library Index */}
+                    <Route path="/library" element={<ProtectedRoute element={DiseaseLibraryIndex} />} />
+    
+                    {/* Public/Protected Route for the Filtered Disease Details */}
+                    <Route path="/library/:cropType" element={<ProtectedRoute element={DiseaseDetail} />} />
+
                     {/* 1. Main Protected Route: Diagnosis Uploader (Home page) */}
                     {/* The element prop renders the component returned by ProtectedRoute */}
                     <Route 

@@ -1,24 +1,29 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate if you want the card to be clickable
+import { useNavigate } from 'react-router-dom';
 
 const DiseaseCard = ({ disease }) => {
     const navigate = useNavigate();
 
-    // Function to handle click and navigate to the full detail page (Optional)
+    // 🚨 CRITICAL FIX: Use MongoDB _id for stable, unique navigation
     const handleClick = () => {
-        // Navigate to a dedicated detail route, perhaps using the disease's unique ID or name
-        navigate(`/library/details/${disease.diseaseName}`); 
+        // Navigate to the full detail page using the document's unique ID
+        navigate(`/library/details/${disease._id}`); 
     };
 
     return (
         <div 
-            className="cursor-pointer bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden transform hover:scale-[1.02] transition duration-300" // Uncomment this if making the card clickable
+            // ⬅️ Aesthetics: Professional hover effect and single click target
+            className="
+                cursor-pointer bg-white border border-gray-200 rounded-xl shadow-lg 
+                overflow-hidden transform hover:shadow-xl hover:translate-y-[-2px] 
+                transition duration-300
+            "
             onClick={handleClick} 
         >
             {/* Image Section */}
             <div className="h-48 overflow-hidden">
                 <img 
-                    src={disease.imageUrl || 'placeholder.jpg'} // Use the imageUrl field
+                    src={disease.imageUrl || 'https://via.placeholder.com/600x400.png?text=Image+Not+Available'} // Use a generic placeholder link
                     alt={disease.diseaseName}
                     className="w-full h-full object-cover"
                 />
@@ -26,28 +31,28 @@ const DiseaseCard = ({ disease }) => {
 
             {/* Content Section */}
             <div className="p-5">
-                {/* Disease Name */}
-                <h3 className="text-xl font-bold text-green-700 mb-1">
+                {/* Disease Name - Professional Color */}
+                <h3 className="text-xl font-bold text-gray-800 mb-1">
                     {disease.diseaseName}
                 </h3>
                 
-                {/* Crop Type (Using a Tailwind Badge/Pill style) */}
+                {/* Crop Type - Green Themed Badge */}
                 <p className="text-sm font-semibold inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full mb-3">
                     Crop: {disease.cropType}
                 </p>
 
-                {/* Brief Symptom Description (Truncated) */}
-                <p className="text-gray-600 text-sm line-clamp-3">
-                    <span className="font-medium text-gray-800">Symptoms:</span> {disease.symptoms.substring(0, 100)}...
+                {/* Brief Symptom Description - Using line-clamp for neatness */}
+                <p className="text-gray-600 text-sm line-clamp-3 mb-4">
+                    <span className="font-medium text-gray-800">Symptoms:</span> 
+                    {/* Only show the first 100 characters of symptoms */}
+                    {disease.symptoms.substring(0, 100)}...
                 </p>
                 
-                {/* Read More Link (Optional) */}
-                <button 
-                    onClick={handleClick} // Link to a detail page
-                    className="text-green-600 hover:text-green-800 font-semibold mt-3 text-sm"
-                >
-                    View Details →
-                </button>
+                {/* View Details Link (Styled as text, relies on div's onClick) */}
+                <p className="text-green-600 hover:text-green-800 font-semibold mt-3 text-sm flex items-center space-x-1">
+                    <span>View Full Details</span>
+                    <span className="text-xl">→</span> 
+                </p>
             </div>
         </div>
     );

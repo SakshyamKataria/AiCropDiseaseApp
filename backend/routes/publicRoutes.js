@@ -51,4 +51,37 @@ publicRouter.get('/disease/:cropType', async (req, res) => {
     }
 });
 
+publicRouter.get('/disease/details/:id', async (req, res) => {
+    // 1. Extract the ID from the URL parameter
+    const diseaseId = req.params.id;
+
+    // 2. Simple validation check
+    if (!diseaseId) {
+        return res.status(400).json({ success: false, message: "Disease ID is required for details." });
+    }
+
+    try {
+        // 3. Mongoose query to find ONE document by its primary key
+        const diseaseData = await DiseaseReference.findById(diseaseId);
+
+        if (!diseaseData) {
+            return res.status(404).json({ success: false, message: "Disease not found." });
+        }
+
+        // 4. Send the single document back
+        res.status(200).json({
+            success: true,
+            data: diseaseData
+        });
+        
+    } catch (error) {
+        // Log the error and send a generic server error response
+        console.error("Error while fetching single disease document:", error);
+        return res.status(500).json({ 
+            success: false,
+            message: "Internal server error fetching disease details."
+        });
+    }
+});
+
 export default publicRouter;

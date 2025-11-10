@@ -133,8 +133,14 @@ const DiagnosisUploader = () => {
                         <p className="text-gray-700">
                             <strong className="text-green-700">Name:</strong> {diagnosisResult.cropName}
                         </p>
-                        <p className="text-gray-700 mb-4">
-                            <strong className="text-green-700">Confidence:</strong> {(diagnosisResult.cropProbability * 100).toFixed(2)}%
+                        <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                        <div 
+                            className="bg-green-500 h-2.5 rounded-full" 
+                            style={{ width: `${(diagnosisResult.diseaseProbability * 100).toFixed(0)}%` }}
+                        ></div>
+                        </div>
+                        <p className="text-sm text-gray-500 mt-1">
+                            Confidence: {(diagnosisResult.diseaseProbability * 100).toFixed(2)}%
                         </p>
                         
                         <h4 className="text-xl font-medium text-green-800 mb-2">Disease Prediction:</h4>

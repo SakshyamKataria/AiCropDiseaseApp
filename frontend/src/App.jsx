@@ -8,6 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import MainDashboard from './components/MainDashboard';
 import DiseaseLibraryIndex from './components/DiseaseLibraryIndex';
 import DiseaseDetail from './components/DiseaseDetail';
+import DiagnosisHistory from './components/DiagnosisHistory';
 
 // Main App Component with Routes
 function App() {
@@ -44,6 +45,9 @@ function App() {
     
                     {/* Public/Protected Route for the Disease Library Index */}
                     <Route path="/library" element={<ProtectedRoute element={DiseaseLibraryIndex} />} />
+
+                    {/*Route for viewing viewer history*/}
+                    <Route path="/history" element={<ProtectedRoute element={DiagnosisHistory} />} />
     
                     {/* Public/Protected Route for the Filtered Disease Details */}
                     <Route path="/library/:cropType" element={<ProtectedRoute element={DiseaseDetail} />} />

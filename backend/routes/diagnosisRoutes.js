@@ -107,4 +107,24 @@ router.post('/diagnose', protect, upload.single('plantImage'), async (req, res) 
     }
 });
 
+router.get('/history',protect, async (req,res) => {
+
+    const userDiagnoses = await Diagnosis.find({ user: req.user._id }).sort({ createdAt: -1 });
+
+    // Check if any history was found (it might be an empty array)
+    if (userDiagnoses) {
+        res.status(200).json({
+            success: true,
+            message: "Diagnosis history retrieved successfully.",
+            data: userDiagnoses // ⬅️ Sending the array back
+        });
+    } else {
+    // If for some reason the query fails to return an array
+        res.status(404).json({
+            success: false,
+            message: "No diagnosis history found for this user."
+        });
+    }
+})
+
 export default router;

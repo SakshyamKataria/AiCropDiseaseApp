@@ -79,6 +79,19 @@ const DiseaseLibraryControls = () => {
                         Filter
                     </button>
                 </div>
+                {/* NEW: Diagnosis History Button */}
+                <button
+                    onClick={() => navigate('/history')}
+                    className="
+                        w-full max-w-lg
+                        bg-gray-400 hover:bg-gray-500  // Or bg-blue-600 for contrast
+                        text-white text-lg font-extrabold 
+                        py-4 px-6 rounded-xl shadow-md 
+                        transition duration-300 ease-in-out
+                    "
+                >
+                    ⏱️ View Diagnosis History
+                </button>
             </div>
             
         </div>

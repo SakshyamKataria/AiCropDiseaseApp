@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-plant-50 via-green-50 to-leaf-50;
+    @apply min-h-screen;
+  }
+}
+
+@layer utilities {
+  .glass-effect {
+    @apply bg-white/80 backdrop-blur-md;
+  }
+  
+  .plant-gradient {
+    @apply bg-gradient-to-r from-plant-500 to-plant-600;
+  }
+  
+  .leaf-gradient {
+    @apply bg-gradient-to-br from-plant-400 via-plant-500 to-plant-600;
+  }
+}

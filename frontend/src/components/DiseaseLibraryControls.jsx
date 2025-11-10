@@ -26,29 +26,39 @@ const DiseaseLibraryControls = () => {
     };
 
     return (
-        <div className="flex flex-col h-full items-center justify-center space-y-8 p-6 bg-white rounded-xl shadow-lg">
+        <div className="flex flex-col h-full items-center justify-center space-y-8 p-8 glass-effect rounded-2xl shadow-plant-lg border border-plant-200 max-w-2xl mx-auto">
             
             {/* 1. Browse Full Library Button (Primary Action) */}
             <button
                 onClick={handleFullLibrary}
                 className="
-                    w-full max-w-lg
-                    bg-green-600 hover:bg-green-700 
-                    text-white text-lg font-extrabold 
-                    py-4 px-6 rounded-xl shadow-md 
-                    transition duration-300 ease-in-out
+                    w-full
+                    plant-gradient hover:from-plant-600 hover:to-plant-700 
+                    text-white text-lg font-bold 
+                    py-5 px-8 rounded-xl shadow-lg hover:shadow-plant-lg
+                    transition-all duration-300 ease-in-out
+                    transform hover:scale-[1.02] flex items-center justify-center space-x-2
                 "
             >
-                📚 Browse Complete Disease Library
+                <span className="text-2xl">📚</span>
+                <span>Browse Complete Disease Library</span>
             </button>
 
-            <div className="w-full max-w-lg">
-                <p className="text-center text-gray-600 mb-3 font-semibold">
-                    — OR —
-                </p>
-                <h3 className="text-xl font-semibold text-gray-700 mb-3">
-                    Filter Library by Specific Crop Type
-                </h3>
+            <div className="w-full space-y-6">
+                <div className="flex items-center justify-center space-x-4">
+                    <div className="flex-1 h-px bg-plant-200"></div>
+                    <p className="text-center text-plant-600 font-semibold px-4">
+                        OR
+                    </p>
+                    <div className="flex-1 h-px bg-plant-200"></div>
+                </div>
+                
+                <div className="text-center mb-4">
+                    <h3 className="text-xl font-bold text-plant-700 mb-2">
+                        Filter by Crop Type
+                    </h3>
+                    <p className="text-sm text-plant-600">Search for diseases affecting a specific crop</p>
+                </div>
 
                 {/* 2. Filter Input and Button Group */}
                 <div className="flex space-x-3">
@@ -58,10 +68,13 @@ const DiseaseLibraryControls = () => {
                         placeholder="Enter Crop Type (e.g., Corn, Tomato)"
                         value={cropInput}
                         onChange={(e) => setCropInput(e.target.value)}
+                        onKeyPress={(e) => e.key === 'Enter' && handleFilterSubmit()}
                         className="
                             flex-grow 
-                            p-3 border-2 border-green-300 rounded-lg 
-                            focus:outline-none focus:border-green-500
+                            p-4 border-2 border-plant-200 rounded-xl 
+                            focus:outline-none focus:ring-2 focus:ring-plant-500 focus:border-plant-500
+                            bg-white text-plant-800 placeholder-plant-400
+                            transition-all duration-200
                         "
                     />
 
@@ -69,28 +82,31 @@ const DiseaseLibraryControls = () => {
                     <button
                         onClick={handleFilterSubmit}
                         className="
-                            bg-green-500 hover:bg-green-600 
+                            bg-plant-500 hover:bg-plant-600 
                             text-white font-bold 
-                            py-3 px-6 rounded-lg 
-                            transition duration-300 ease-in-out
-                            shadow-sm
+                            py-4 px-8 rounded-xl 
+                            transition-all duration-300 ease-in-out
+                            shadow-md hover:shadow-lg transform hover:scale-105
                         "
                     >
-                        Filter
+                        🔍 Filter
                     </button>
                 </div>
+                
                 {/* NEW: Diagnosis History Button */}
                 <button
                     onClick={() => navigate('/history')}
                     className="
-                        w-full max-w-lg
-                        bg-gray-400 hover:bg-gray-500  // Or bg-blue-600 for contrast
-                        text-white text-lg font-extrabold 
-                        py-4 px-6 rounded-xl shadow-md 
-                        transition duration-300 ease-in-out
+                        w-full
+                        bg-gradient-to-r from-plant-400 to-plant-500 hover:from-plant-500 hover:to-plant-600
+                        text-white text-lg font-bold 
+                        py-5 px-8 rounded-xl shadow-lg hover:shadow-plant-lg
+                        transition-all duration-300 ease-in-out
+                        transform hover:scale-[1.02] flex items-center justify-center space-x-2
                     "
                 >
-                    ⏱️ View Diagnosis History
+                    <span className="text-2xl">⏱️</span>
+                    <span>View Diagnosis History</span>
                 </button>
             </div>
             
